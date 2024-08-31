@@ -4,11 +4,10 @@ Author: Natalie Ivers
 
 ## Installation
 
-1. Download and extract this program and all it's items to your chosen directory.
+1. Download and extract this program and extract all files to your desired directory.
 2. Verify that flog_log.txt, lookup_table.csv, and protocol-numbers.csv are present in the /data/ directory
-    - Alternatively, you may change the default input file locations
-      at the beginning of class definition in src/main.py
-3. Open a command line in, or navigate a command line to the directory (ilumio-assessment)
+    - Note: You can modify the default input file locations in the src/main.py file, at the beginning of the class definition.
+3. Open a command line terminal and navigate to the program directory (ilumio-assessment).
 4. Enter 'python src/main.py' in the command line and press enter
 5. When the program is complete, the resulting output csv files will be located in the /output/ directory
    and the program will prompt the user to exit the program
