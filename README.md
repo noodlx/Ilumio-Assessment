@@ -52,38 +52,40 @@ scope of the assessment, the items in the /testing/ file are my claim that I deb
 
 
 1. The paths to the protocol numbers file, flow log file, lookup table file, and output directory are hardcoded.
+    
     - This relates to a choice of how the program recieves input, I had three ideas for how I might go about this: 
-      Hardcoded filepaths:
-        -Pros:
-            Simplicity: No need for additional logic to handle inputs, and the paths are directly available within
+      
+      1. 1: Hardcoded filepaths
+        - Pros:        
+            Simplicity - No need for additional logic to handle inputs, and the paths are directly available within
             the code, reducing the likelihood of input errors. In addition, its easy to set up and particularly
             effective for a one-off project. Likewise, that simplicity leads to fewer dependencies for external
             configuration file or command-line argument parsing, which reduces complexity and potential points of
             failure.
-        -Cons:
-            Lack of Flexibility: In the event of modification, the code must be changed directly, which is not ideal
+        - Cons:
+            Lack of Flexibility - In the event of modification, the code must be changed directly, which is not ideal
             for reusable or production code.
-      Pass the inputs as arguments in the command line:
-        -Pros:
-            Flexibility: Allows the user to specify different file paths without having to move files around or modify
+      1. 2: Pass the inputs as arguments in the command line
+        - Pros:
+            Flexibility - Allows the user to specify different file paths without having to move files around or modify
             the code directly, especially useful if this program were to be automated into a larger project or used
             for batch processing
-        -Cons: 
-            Additional Complexity: Requires adding argument parsing logic and handling invalid cases where the arguments are erroneous. The correct syntax would have to be documented and communicated with the user, unpractical for code that will not be reused.
-      Set the filepaths in an external configuration file:
-        -Pros: 
-            Scalability: the configuration could be used to manage all sorts of options within the entire program, including configurations pertaining to testing. As far as input freedom, this option allows a degree of freedom between a command line argument and a hardcoded implementation.
-        -Cons:
-            Setup Overhead: I think the documentation and implementation within the main.py of a configuration file
+        - Cons: 
+            Additional Complexity - Requires adding argument parsing logic and handling invalid cases where the arguments are erroneous. The correct syntax would have to be documented and communicated with the user, unpractical for code that will not be reused.
+      1. 3: Set the filepaths in an external configuration file
+        - Pros: 
+            Scalability - the configuration could be used to manage all sorts of options within the entire program, including configurations pertaining to testing. As far as input freedom, this option allows a degree of freedom between a command line argument and a hardcoded implementation.
+        - Cons:
+            Setup Overhead - I think the documentation and implementation within the main.py of a configuration file
             would be overkill for the scope and simplicity of this program, which is essentially single use. 
-    
+
     Decision: In a controlled assessment environment, hardcoding file paths simplifies the submission process and ensures that the code runs as expected without additional setup. This allows the evaluator to focus on the core logic and functionality rather than configuration.
 2. Error Handling
+    
     - The program assumes well-formatted data, If the files are incorrectly formatted, the program might not handle these cases gracefully and could result in uncaught errors or incorrect parsing. The errors handled by the program are some of the simplest user errors to catch and correct, as i determined those were the most important
     for this assessment.
 
-    Decision: While the error handling in the code is basic (e.g., printing errors and exiting), it is my belief that
-    this is sufficient for the scope of a take-home assessment. It ensures that the program doesn't proceed with incorrect or missing data, which could lead to misleading results. In a real-world scenario, more sophisticated error handling would be necessary, but for the assessment, the current level of error handling is appropriate and keeps the code simple and readable.
+    Decision: While the error handling in the code is basic (e.g., printing errors and exiting), it is my belief that this is sufficient for the scope of a take-home assessment. It ensures that the program doesn't proceed with incorrect or missing data, which could lead to misleading results. In a real-world scenario, more sophisticated error handling would be necessary, but for the assessment, the current level of error handling is appropriate and keeps the code simple and readable.
 3. Logging
     - The program prints error messages, which were useful during my development of the code. However, from a maintenance standpoint, it would be better to develop that outwards into a logging system to help debug future
     errors. I began programming the logs for this program when I decided that I'd already spent more than the two hours on the program, and I found it unlikely you expected me to develop that far into the scope of this assessment. 
