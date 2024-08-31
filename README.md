@@ -15,26 +15,26 @@ Author: Natalie Ivers
 To use your own flow log file and lookup table, rename your files to flow_log.txt and lookup_table.csv respectively
 and replace the default files in /data/
 
-Do not remove or replace protocol-numbers.csv
+!! Do not remove or replace protocol-numbers.csv !!
 
 
 ## Testing
 
 In the /tests/ directory, there are a few items:
 1. /input_gen_scripts/:
-    - scripts that can be used to create sample flow_logs.txt and lookup_table.csv files
-    - these files resulting from these scripts will be written in the same /tests/input_gen_scripts/ directory
-    - the parameters of these files (number of entries/variations of entry fields) can be set by editing the
+    - These scripts that can be used to create sample flow_logs.txt and lookup_table.csv files
+    - The files resulting from these scripts will be written in the same /tests/input_gen_scripts/ directory
+    - The parameters of these files (number of entries/variations of entry fields) can be set by editing the
       constants in flow_log_generator.py and lookup_table_generator.py
 2. /test_input/:
-    - these are sample input files that can be (and were) used to test the edge cases of the program
+    - These are sample input files that can be (and were) used to test the edge cases of the program
       (very full input files/empty input files)
 3. /test_output/:
-    - these are the resulting output files of the test involving a 10 MB flow_log.txt and a 10,000 entry lookup_table
-    - the empty entry test does not result in output files, as the program catches an empty file, alerts the user,
+    - These are the resulting output files of the test involving a 10 MB flow_log.txt and a 10,000 entry lookup_table
+    - The empty entry test does not result in output files, as the program catches an empty file, alerts the user,
       and exits.
 4. testing.md: 
-    - this is a list of all tests I performed on the program.
+    - This is a list of all tests I performed on the program.
 
 Though it would be satisfying so see "test_<function>()" dopplegangers of all my code, It seemed unnecessary for the
 scope of the assessment, the items in the /testing/ file are my claim that I debugged and tested my code thoroughly.
