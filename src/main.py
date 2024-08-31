@@ -36,7 +36,7 @@ class FlowLogProcessor:
         process(): Main method to parse inputted flow log and lookup table,
             process the data, and output the results.
     """
-
+    # File Paths for input and output
     protocol_dict_path = "data/protocol-numbers.csv"
     flow_log_path = "data/flow_log.txt"
     lookup_table_path = "data/lookup_table.csv"
@@ -277,3 +277,4 @@ class FlowLogProcessor:
 if __name__ == "__main__":
     flp = FlowLogProcessor()
     flp.run()
+    input("Press Enter to exit...")

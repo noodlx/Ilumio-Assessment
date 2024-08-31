@@ -4,7 +4,7 @@ Author: Natalie Ivers
 
 ## Installation and Usage
 
-1. Download and extract this program and extract all files to your desired directory.
+1. Download and extract all files or clone the repository to your desired directory.
 2. Verify that flow_log.txt, lookup_table.csv, and protocol-numbers.csv are present in the /data/ directory
     - Note: You can modify the default input file locations in the src/main.py file, at the beginning of the class definition.
 3. Open a command line terminal and navigate to the program directory (ilumio-assessment).
@@ -36,17 +36,16 @@ In the /tests/ directory, there are a few items:
 4. testing.md: 
     - This is a list of all tests I performed on the program.
 
-Though it would be satisfying so see "test_<function>()" dopplegangers of all my code, It seemed unnecessary for the
-scope of the assessment, the items in the /testing/ file are my claim that I debugged and tested my code thoroughly.
+While it would have been gratifying to create test_xyz() counterparts for all my code, it seemed beyond the necessary scope of this assessment. Instead, I focused on manual testing, as outlined in the /testing/ directory, to demonstrate that I've thoroughly debugged and tested my code.
 
 
 ## Assumptions
 
-1. All input is well-formatted to the specifications provided to me
+1. All input is well-formatted to the specifications provided in the assessment description
 2. Python is installed on the user system
 3. Flow logs are in default format and version 2 exclusively
 4. Case is irrelevant for all inputs/outputs
-5. The output/ directory is writable, and user has permission to write on the file system.
+5. The /output/ directory is writable, and user has permission to write on the file system.
 6. The Final line 'Press Enter to exit...' assumes that the user is running this script in a console and can provide
    input.
 7. Flow log files are in a plain text format, instead of a more complex format like JSON.
@@ -57,7 +56,7 @@ scope of the assessment, the items in the /testing/ file are my claim that I deb
 
 1. The paths to the protocol numbers file, flow log file, lookup table file, and output directory are hardcoded.
     
-    - This relates to a choice of how the program recieves input, I had three ideas for how I might go about this: 
+    - I had three ideas for how I might handle input in regards to this program: 
       
       1. Hardcoded filepaths
 
@@ -66,12 +65,14 @@ scope of the assessment, the items in the /testing/ file are my claim that I deb
             within the code, reducing the likelihood of input errors. In addition, its easy to set up and particularly effective for a one-off project. Likewise, that simplicity leads to fewer dependencies for external configuration file or command-line argument parsing, which reduces complexity and potential points of failure.
         - Cons:
             Lack of Flexibility - In the event of modification, the code must be changed directly, which is not ideal for reusable or production code.
+      
       2. Pass the inputs as arguments in the command line
 
         - Pros:
             Flexibility - Allows the user to specify different file paths without having to move files around or modify the code directly, especially useful if this program were to be automated into a larger project or used for batch processing
         - Cons: 
             Additional Complexity - Requires adding argument parsing logic and handling invalid cases where the arguments are erroneous. The correct syntax would have to be documented and communicated with the user, unpractical for code that will not be reused.
+      
       3. Set the filepaths in an external configuration file
 
         - Pros: 
@@ -93,13 +94,13 @@ scope of the assessment, the items in the /testing/ file are my claim that I deb
     Decision: Simple print statements suffice to demonstrate that the program is processing data as expected. In a production environment, logging would be critical, but for the assessment, this level of detail is unnecessary.
 4. Data Validation
     - The program assumes that all input data is correctly formatted. For production code that would have more time
-    spent developing, testing, and coument, this would surely be implemented. 
+    spent developing, testing, and embedded within a larger system, this would surely be implemented. 
 
     Decision: This allows me to focus on the main task of processing the data and generating the required outputs. In a real-world scenario, more robust validation would be necessary, but for the assessment, the current level is sufficient to demonstrate my skill.
 
 
 ## Conclusion
 
-This project was developed with simplicity and functionality in mind, focusing on delivering accurate results within the constraints of the assessment. While there are opportunities for further refinement and expansion, the current implementation effectively demonstrates my programming skills, including file handling, data processing, and basic error management. The provided testing scripts and the clear documentation ensure that the code is both reliable and easy to understand to the best of my ability.
+This project was developed with simplicity and functionality in mind, focusing on delivering accurate results within the constraints of the assessment. While there are opportunities for further refinement and expansion, the current implementation effectively demonstrates my programming skills, including file handling, data processing, and basic error management. The provided testing details and the clear documentation ensure that the code is both reliable and easy to understand to the best of my ability.
 
 Thank you for your time.
