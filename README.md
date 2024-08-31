@@ -1,14 +1,12 @@
-build 1
+build 2
 
 added:
-flow_log parse
-lookup_table parse
-i/o
+class-ified the program
+import protocol dictionary
+output csvs
+progress documentation
 
 todo:
-map tags
-count tags
-count tuples
 tests
 -missing data
 -case insensitivity
