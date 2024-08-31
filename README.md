@@ -83,8 +83,7 @@ scope of the assessment, the items in the /testing/ file are my claim that I deb
     Decision: In a controlled assessment environment, hardcoding file paths simplifies the submission process and ensures that the code runs as expected without additional setup. This allows the evaluator to focus on the core logic and functionality rather than configuration.
 2. Error Handling
     
-    - The program assumes well-formatted data, If the files are incorrectly formatted, the program might not handle these cases gracefully and could result in uncaught errors or incorrect parsing. The errors handled by the program are some of the simplest user errors to catch and correct, as i determined those were the most important
-    for this assessment.
+    - The program assumes well-formatted data, If the files are incorrectly formatted, the program might not handle these cases gracefully and could result in uncaught errors or incorrect parsing. The errors handled by the program are some of the simplest user errors to catch and correct, and I determined those were the most important for this assessment.
 
     Decision: While the error handling in the code is basic (e.g., printing errors and exiting), it is my belief that this is sufficient for the scope of a take-home assessment. It ensures that the program doesn't proceed with incorrect or missing data, which could lead to misleading results. In a real-world scenario, more sophisticated error handling would be necessary, but for the assessment, the current level of error handling is appropriate and keeps the code simple and readable.
 3. Logging
