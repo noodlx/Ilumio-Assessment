@@ -36,7 +36,7 @@ In the /tests/ directory, there are a few items:
 4. testing.md: 
     - This is a list of all tests I performed on the program.
 
-While it would have been gratifying to create test_xyz() counterparts for all my code, it seemed beyond the necessary scope of this assessment. Instead, I focused on manual testing, as outlined in the /testing/ directory, to demonstrate that I've thoroughly debugged and tested my code.
+While it would have been ideal to create test_xyz() counterparts for all my code, it seemed beyond the necessary scope of this assessment. Instead, I focused on manual testing, as outlined in the /testing/ directory, to demonstrate that I've thoroughly debugged and tested my code.
 
 
 ## Assumptions
@@ -49,6 +49,7 @@ While it would have been gratifying to create test_xyz() counterparts for all my
 6. The Final line 'Press Enter to exit...' assumes that the user is running this script in a console and can provide
    input.
 7. Flow log files are in a plain text format, instead of a more complex format like JSON.
+8. The user knows how to download/clone the repository from github
 
 
 ## Limitations and Design Decisions
