@@ -1,11 +1,11 @@
 """
 This is a class for parsing flow log files,
 reading lookup tables, and generating tag and tuple counts
-based on the data.
 
 Author: Natalie Ivers
 """
 
+# Requirement: Only include native python libraries
 import os
 from pathlib import Path
 import csv
@@ -27,6 +27,7 @@ class FlowLogProcessor:
             list of tuples containing destination port and protocol keyword.
         read_lookup_table(): Reads a lookup table file and returns a dictionary
             of (destination port, protocol) to tag.
+        map_tags(parsed_log, lookup_table): Maps tags to each flow log entry.
         count_tags(dest_protocol_tuples, lookup_table): Counts the number of
             times each tag appears in the flow log.
         count_port_protocol(dest_protocol_tuples): Counts the number of times
@@ -39,8 +40,8 @@ class FlowLogProcessor:
 
     # Filepaths for input and output files
     protocol_dict_path = Path("data/protocol-numbers.csv")
-    flow_log_path = Path("data/flow_log.txt")
-    lookup_table_path = Path("data/lookup_table.csv")
+    flow_log_path = Path("data/big_test_flow_log.txt")
+    lookup_table_path = Path("data/big_test_lookup_table.csv")
     output_path = Path("output/")
 
     def read_protocol_numbers(self):
@@ -58,14 +59,20 @@ class FlowLogProcessor:
         try:
             with open(self.protocol_dict_path, 'r', encoding='utf-8') as file:
                 reader = csv.DictReader(file)
+                if not reader.fieldnames:
+                    raise ValueError(
+                        "Protocol numbers file is empty or missing headers."
+                    )
                 for row in reader:
                     protocol_number = int(row['Decimal'])
                     protocol_keyword = row['Keyword'].lower()
                     protocol_dict[protocol_number] = protocol_keyword
         except FileNotFoundError as e:
             print(f"Error reading protocol numbers file: {e}")
+            exit(1)
         except IOError as e:
             print(f"Error reading protocol numbers file: {e}")
+            exit(1)
         return protocol_dict
 
     def parse_flow_log(self, protocol_dict):
@@ -80,25 +87,26 @@ class FlowLogProcessor:
             list: list of tuples containing destination port and protocol
                 keyword
         """
-        dest_protocol_tuples = []
+        parsed_log = []
         try:
             with open(self.flow_log_path, 'r', encoding='utf-8') as file:
                 for line in file:
                     fields = line.strip().split()
-                    if len(fields) >= 8:
-                        destination_port = int(fields[6])
-                        protocol_number = int(fields[7])
-                        protocol_keyword = protocol_dict.get(
-                            protocol_number, 'unknown'
-                        )
-                        dest_protocol_tuples.append(
-                            (destination_port, protocol_keyword)
-                        )
+                    protocol_number = int(fields[7])
+                    protocol_keyword = protocol_dict.get(
+                        protocol_number, 'unknown'
+                    )
+                    # Replace protocol number
+                    # with string and append
+                    fields[7] = protocol_keyword.lower()
+                    parsed_log.append(fields)
         except FileNotFoundError as e:
             print(f"Error reading flow log file: {e}")
+            exit(1)
         except IOError as e:
             print(f"Error reading flow log file: {e}")
-        return dest_protocol_tuples
+            exit(1)
+        return parsed_log
 
     def read_lookup_table(self):
         """
@@ -111,54 +119,76 @@ class FlowLogProcessor:
         lookup_table = {}
         try:
             with open(self.lookup_table_path, 'r', encoding='utf-8') as file:
-                next(file)  # skip header
-                for line in file:
-                    fields = line.strip().split(',')
-                    if len(fields) == 3:
-                        dstport = int(fields[0])
-                        protocol = fields[1].lower()
-                        tag = fields[2]
-                        lookup_table[(dstport, protocol)] = tag
+                reader = csv.DictReader(file)
+                if not reader.fieldnames:
+                    raise ValueError(
+                        "Lookup table file is empty or missing headers."
+                    )
+                for row in reader:
+                    dstport = int(row['dstport'])
+                    protocol = row['protocol'].lower()
+                    tag = row['tag'].lower()
+                    lookup_table[(dstport, protocol)] = tag
         except FileNotFoundError as e:
             print(f"Error reading lookup table file: {e}")
+            exit(1)
         except IOError as e:
             print(f"Error reading lookup table file: {e}")
+            exit(1)
         return lookup_table
 
-    def count_tags(self, dest_protocol_tuples, lookup_table):
+    def map_tags(self, parsed_log, lookup_table):
+        """
+        Maps tags to each flow log entry.
+
+        Args:
+            parsed_log (list): list of flow log entries
+            lookup_table (dict): dictionary of (destination port, protocol)
+                to tag
+
+        Returns:
+            list: list of flow log entries with tags
+        """
+        tagged_log = []
+        for entry in parsed_log:
+            dest_port = int(entry[6])
+            protocol = entry[7]
+            tag = lookup_table.get((dest_port, protocol), 'untagged')
+            entry.append(tag)
+            tagged_log.append(entry)
+        return tagged_log
+
+    def count_tags(self, tagged_log):
         """
         Counts the number of times each tag appears in the flow log.
 
         Args:
-            dest_protocol_tuples (list): list of tuples containing
-                destination port and protocol
-            lookup_table (dict): dictionary of (destination port, protocol)
-                to tag
+            tagged_log (list): list of flow log entries with tags
 
         Returns:
             dict: dictionary of tag to count
         """
         tag_counts = {}
-        for dest_port, protocol in dest_protocol_tuples:
-            if (dest_port, protocol) in lookup_table:
-                tag = lookup_table[(dest_port, protocol)]
-                tag_counts[tag] = tag_counts.get(tag, 0) + 1
+        for entry in tagged_log:
+            tag = entry[-1]  # The tag is the last element in the entry
+            tag_counts[tag] = tag_counts.get(tag, 0) + 1
         return tag_counts
 
-    def count_port_protocol(self, dest_protocol_tuples):
+    def count_dest_protocol(self, tagged_log):
         """
         Counts the number of times each (destination port, protocol) tuple
         appears in the flow log.
 
         Args:
-            dest_protocol_tuples (list): list of tuples containing
-                destination port and protocol
+            tagged_log (list): list of flow log entries with tags
 
         Returns:
             dict: dictionary of (destination port, protocol) tuple to count
         """
         tuple_counts = {}
-        for dest_port, protocol in dest_protocol_tuples:
+        for entry in tagged_log:
+            dest_port = int(entry[6])
+            protocol = entry[7].lower()
             tuple_counts[(dest_port, protocol)] = tuple_counts.get(
                 (dest_port, protocol), 0
             ) + 1
@@ -204,12 +234,13 @@ class FlowLogProcessor:
         """
         # Parse Input Data
         protocol_dict = self.read_protocol_numbers()
-        dest_protocol_tuples = self.parse_flow_log(protocol_dict)
+        parsed_log = self.parse_flow_log(protocol_dict)
         lookup_table = self.read_lookup_table()
 
         # Process Data
-        tag_counts = self.count_tags(dest_protocol_tuples, lookup_table)
-        dest_protocol_counts = self.count_port_protocol(dest_protocol_tuples)
+        tagged_log = self.map_tags(parsed_log, lookup_table)
+        tag_counts = self.count_tags(tagged_log)
+        dest_protocol_counts = self.count_dest_protocol(tagged_log)
 
         # Output Results
         self.output_results(tag_counts, dest_protocol_counts)
