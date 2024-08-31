@@ -32,7 +32,7 @@ class FlowLogProcessor:
         count_port_protocol(dest_protocol_tuples): Counts the number of times
             each (destination port, protocol) tuple appears in the flow log.
         output_results(tag_counts, tuple_counts): Outputs the tag and tuple
-            counts to CSV files.
+            counts to CSV files. The output is sorted by count, descending.
         process(): Main method to parse inputted flow log and lookup table,
             process the data, and output the results.
     """
@@ -203,6 +203,7 @@ class FlowLogProcessor:
     def output_results(self, tag_counts, tuple_counts):
         """
         Outputs the tag and tuple counts to CSV files.
+        The output is sorted by count, descending.
 
         Args:
             tag_counts (dict): dictionary of tag to count
@@ -220,7 +221,9 @@ class FlowLogProcessor:
             encoding='utf-8'
         ) as file:
             file.write('Tag,Count\n')
-            for tag, count in tag_counts.items():
+            for tag, count in sorted(
+                tag_counts.items(), key=lambda item: item[1], reverse=True
+            ):
                 file.write(f'{tag},{count}\n')
 
         # Output tuple count to CSV
@@ -230,7 +233,9 @@ class FlowLogProcessor:
             encoding='utf-8'
         ) as file:
             file.write('Port,Protocol,Count\n')
-            for (dest_port, protocol), count in tuple_counts.items():
+            for (dest_port, protocol), count in sorted(
+                tuple_counts.items(), key=lambda item: item[1], reverse=True
+            ):
                 file.write(f'{dest_port},{protocol},{count}\n')
 
     def run(self):
