@@ -63,7 +63,7 @@ scope of the assessment, the items in the /testing/ file are my claim that I deb
 
         - Pros:        
             Simplicity - No need for additional logic to handle inputs, and the paths are directly available
-            withinthe code, reducing the likelihood of input errors. In addition, its easy to set up and particularly effective for a one-off project. Likewise, that simplicity leads to fewer dependencies for external configuration file or command-line argument parsing, which reduces complexity and potential points of failure.
+            within the code, reducing the likelihood of input errors. In addition, its easy to set up and particularly effective for a one-off project. Likewise, that simplicity leads to fewer dependencies for external configuration file or command-line argument parsing, which reduces complexity and potential points of failure.
         - Cons:
             Lack of Flexibility - In the event of modification, the code must be changed directly, which is not ideal for reusable or production code.
       2. Pass the inputs as arguments in the command line
