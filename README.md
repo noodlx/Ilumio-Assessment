@@ -55,24 +55,21 @@ scope of the assessment, the items in the /testing/ file are my claim that I deb
     
     - This relates to a choice of how the program recieves input, I had three ideas for how I might go about this: 
       
-      1. 1: Hardcoded filepaths
+      1. Hardcoded filepaths
+
         - Pros:        
-            Simplicity - No need for additional logic to handle inputs, and the paths are directly available within
-            the code, reducing the likelihood of input errors. In addition, its easy to set up and particularly
-            effective for a one-off project. Likewise, that simplicity leads to fewer dependencies for external
-            configuration file or command-line argument parsing, which reduces complexity and potential points of
-            failure.
+            Simplicity - No need for additional logic to handle inputs, and the paths are directly available
+            withinthe code, reducing the likelihood of input errors. In addition, its easy to set up and particularly effective for a one-off project. Likewise, that simplicity leads to fewer dependencies for external configuration file or command-line argument parsing, which reduces complexity and potential points of failure.
         - Cons:
-            Lack of Flexibility - In the event of modification, the code must be changed directly, which is not ideal
-            for reusable or production code.
-      1. 2: Pass the inputs as arguments in the command line
+            Lack of Flexibility - In the event of modification, the code must be changed directly, which is not ideal for reusable or production code.
+      2. Pass the inputs as arguments in the command line
+
         - Pros:
-            Flexibility - Allows the user to specify different file paths without having to move files around or modify
-            the code directly, especially useful if this program were to be automated into a larger project or used
-            for batch processing
+            Flexibility - Allows the user to specify different file paths without having to move files around or modify the code directly, especially useful if this program were to be automated into a larger project or used for batch processing
         - Cons: 
             Additional Complexity - Requires adding argument parsing logic and handling invalid cases where the arguments are erroneous. The correct syntax would have to be documented and communicated with the user, unpractical for code that will not be reused.
-      1. 3: Set the filepaths in an external configuration file
+      3. Set the filepaths in an external configuration file
+
         - Pros: 
             Scalability - the configuration could be used to manage all sorts of options within the entire program, including configurations pertaining to testing. As far as input freedom, this option allows a degree of freedom between a command line argument and a hardcoded implementation.
         - Cons:
