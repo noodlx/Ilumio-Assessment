@@ -7,7 +7,7 @@ Author: Natalie Ivers
 1. Download and extract all files or clone the repository to your desired directory.
 2. Verify that flow_log.txt, lookup_table.csv, and protocol-numbers.csv are present in the /data/ directory
     - Note: You can modify the default input file locations in the src/main.py file, at the beginning of the class definition.
-3. Open a command line terminal and navigate to the program directory (ilumio-assessment).
+3. Open a command line terminal and navigate to the program directory (Ilumio-Assessment-main).
 4. Enter 'python src/main.py' in the command line and press enter
 5. When the program is complete, the resulting output csv files will be located in the /output/ directory
    and the program will prompt the user to exit the program
