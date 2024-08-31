@@ -7,7 +7,6 @@ Author: Natalie Ivers
 
 # Requirement: Only include native python libraries
 import os
-from pathlib import Path
 import csv
 
 
@@ -38,11 +37,10 @@ class FlowLogProcessor:
             process the data, and output the results.
     """
 
-    # Filepaths for input and output files
-    protocol_dict_path = Path("data/protocol-numbers.csv")
-    flow_log_path = Path("data/big_test_flow_log.txt")
-    lookup_table_path = Path("data/big_test_lookup_table.csv")
-    output_path = Path("output/")
+    protocol_dict_path = "data/protocol-numbers.csv"
+    flow_log_path = "data/flow_log.txt"
+    lookup_table_path = "data/lookup_table.csv"
+    output_path = "output/"
 
     def read_protocol_numbers(self):
         """
@@ -120,14 +118,22 @@ class FlowLogProcessor:
         try:
             with open(self.lookup_table_path, 'r', encoding='utf-8') as file:
                 reader = csv.DictReader(file)
-                if not reader.fieldnames:
+                # Strip whitespace from fieldnames
+                reader.fieldnames = [
+                    field.strip() for field in reader.fieldnames
+                ]
+                required_fields = {'dstport', 'protocol', 'tag'}
+                if not reader.fieldnames or not required_fields.issubset(
+                    reader.fieldnames
+                ):
                     raise ValueError(
-                        "Lookup table file is empty or missing headers."
+                        "Lookup table file is empty or "
+                        "missing required headers."
                     )
                 for row in reader:
-                    dstport = int(row['dstport'])
-                    protocol = row['protocol'].lower()
-                    tag = row['tag'].lower()
+                    dstport = int(row['dstport'].strip())
+                    protocol = row['protocol'].strip().lower()
+                    tag = row['tag'].strip().lower()
                     lookup_table[(dstport, protocol)] = tag
         except FileNotFoundError as e:
             print(f"Error reading lookup table file: {e}")
@@ -229,21 +235,43 @@ class FlowLogProcessor:
 
     def run(self):
         """
-        method to parse inputted flow log and lookup table,
+        Method to parse inputted flow log and lookup table,
         process the data, and output the results.
         """
+        print("Starting FlowLogProcessor...")
+
         # Parse Input Data
+        print("Reading protocol numbers...")
         protocol_dict = self.read_protocol_numbers()
+        print("Protocol numbers read successfully.")
+
+        print("Parsing flow log...")
         parsed_log = self.parse_flow_log(protocol_dict)
+        print("Flow log parsed successfully.")
+
+        print("Reading lookup table...")
         lookup_table = self.read_lookup_table()
+        print("Lookup table read successfully.")
 
         # Process Data
+        print("Mapping tags to flow log entries...")
         tagged_log = self.map_tags(parsed_log, lookup_table)
+        print("Tags mapped successfully.")
+
+        print("Counting tags...")
         tag_counts = self.count_tags(tagged_log)
+        print("Tags counted successfully.")
+
+        print("Counting destination port and protocol tuples...")
         dest_protocol_counts = self.count_dest_protocol(tagged_log)
+        print("Destination port and protocol tuples counted successfully.")
 
         # Output Results
+        print("Outputting results...")
         self.output_results(tag_counts, dest_protocol_counts)
+        print("Results outputted successfully.")
+
+        print("FlowLogProcessor completed successfully.")
 
 
 if __name__ == "__main__":
