@@ -15,6 +15,8 @@ Author: Natalie Ivers
 To use your own flow log file and lookup table, rename your files to flow_log.txt and lookup_table.csv respectively
 and replace the default files in /data/
 
+Do not remove or replace protocol-numbers.csv
+
 
 ## Testing
 
